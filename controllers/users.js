@@ -1,21 +1,20 @@
-const Task = require('../models/task');
+const User = require('../models/user');
 
-module.exports.getTasks = (req, res) => {
-  Task.find({})
-    .populate('author')
-    .then((tasks) => res.send({ data: tasks }))
+module.exports.getUsers = (req, res) => {
+  User.find({})
+    .then((users) => res.send({ data: users }))
     .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
 };
 
-module.exports.getTask = (req, res) => {
-  Task.findById(req.params.id)
-    .then((task) => res.send({ data: task }))
+module.exports.getUser = (req, res) => {
+  User.findById(req.params.id)
+    .then((user) => res.send({ data: user }))
     .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
 };
 
-module.exports.createTask = (req, res) => {
-    const { name, authorId } = req.body;
-    Task.create({ name, author: authorId })
-        .then(task => res.send({ data: task }))
+module.exports.createUser = (req, res) => {
+    const { name } = req.body;
+    User.create({ name })
+        .then(user => res.send({ data: user }))
         .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
 };
