@@ -8,7 +8,7 @@ module.exports.getTasks = (req, res) => {
     .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
 };
 
-module.exports.getTask = (req, res) => {
+module.exports.getTaskById = (req, res) => {
   Task.findById(req.params.id)
     //с помощью populate вместо id автора увидим все его поля
     .populate('author')
@@ -29,8 +29,8 @@ module.exports.getTask = (req, res) => {
 };
 
 module.exports.createTask = (req, res) => {
-  const { title, text, author } = req.body;
-  Task.create({ title, text, author: author })
+  const { title, text } = req.body;
+  Task.create({ title, text, author: req.user._id })
     .then(task => res.send({ data: task }))
     .catch(err => {
       if (err.name === 'ValidationError') {
@@ -40,3 +40,4 @@ module.exports.createTask = (req, res) => {
       res.status(500).send({ message: err })
     });
 };
+

@@ -2,10 +2,10 @@ const router = require('express').Router();
 const {
   getTasks,
   createTask,
-  getTask,
+  getTaskById,
 } = require('../controllers/tasks');
 
-router.get('/tasks/:id', getTask);
+router.get('/tasks/:id', getTaskById);
 router.get('/tasks', getTasks);
 router.post('/tasks', createTask);
 
