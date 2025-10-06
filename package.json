@@ -4,15 +4,15 @@
   "description": "**Функциональность** * Можно записывать, читать или удалять карточки из бд, обновлять количество лайков для каждой конкретной карточки. * При регистрации, пользователь записывается в бд. Если мы хотим отредактировать профиль, происходит поиск по БД и последующие обновления. * Авторизация происходит после поиска пользователя в бд и при сравнении токена из его браузера с выданным для него ранее. * Проект структурирован благодаря разделению кода на роуты, контроллеры и модели.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sashamehaev/task-tracker-express-pet-project.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "sashamehaev",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/sashamehaev/task-tracker-express-pet-project/issues"
