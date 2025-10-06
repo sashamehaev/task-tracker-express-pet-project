@@ -2,7 +2,7 @@ const Task = require('../models/task');
 
 module.exports.getTasks = (req, res) => {
   Task.find({})
-    //в populate получим подробную инфу про автора
+    //с помощью populate вместо id автора увидим все его поля
     .populate('author')
     .then((tasks) => res.send({ data: tasks }))
     .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
@@ -10,10 +10,22 @@ module.exports.getTasks = (req, res) => {
 
 module.exports.getTask = (req, res) => {
   Task.findById(req.params.id)
-    //в populate получим подробную инфу про автора
+    //с помощью populate вместо id автора увидим все его поля
     .populate('author')
-    .then((task) => res.send({ data: task }))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .then(task => {
+      if (!task) {
+        res.status(404).send({ message: 'Карточка не найдена' });
+        return;
+      }
+      res.send({ data: task })
+    })
+    .catch(err => {
+      if (err.name === 'CastError') { 
+        res.status(400).send({ message: 'Поле Id заданно некорректно' }); 
+        return; 
+      }
+      res.status(500).send({ message: err })
+    });
 };
 
 module.exports.createTask = (req, res) => {
