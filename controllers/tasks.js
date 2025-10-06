@@ -17,8 +17,14 @@ module.exports.getTask = (req, res) => {
 };
 
 module.exports.createTask = (req, res) => {
-    const { name, author } = req.body;
-    Task.create({ name, author: author })
-        .then(task => res.send({ data: task }))
-        .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+  const { title, text, author } = req.body;
+  Task.create({ title, text, author: author })
+    .then(task => res.send({ data: task }))
+    .catch(err => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Введены некорректные данные для карточки' }); 
+        return;
+      }
+      res.status(500).send({ message: err })
+    });
 };
