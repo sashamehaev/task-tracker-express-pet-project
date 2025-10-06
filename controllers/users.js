@@ -25,8 +25,14 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-    const { name } = req.body;
-    User.create({ name })
-        .then(user => res.send({ data: user }))
-        .catch(err => res.status(500).send({ message: err }));
+  const { name } = req.body;
+  User.create({ name })
+    .then(user => res.status(201).send({ data: user }))
+    .catch(err => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Введены некорректные данные для пользователя' }); 
+        return;
+      }
+      res.status(500).send({ message: err })
+    });
 };
