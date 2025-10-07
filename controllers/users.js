@@ -60,3 +60,21 @@ module.exports.updateUser = (req, res) => {
       res.status(500).send({ message: err.message }); 
     }); 
 };
+
+module.exports.deleteUser = (req, res) => { 
+  User.findByIdAndDelete(req.params.id) 
+    .then(user => { 
+      if (!user) { 
+        res.status(404).send({ message: 'Пользователь не найден' }); 
+        return; 
+      }
+      res.status(204).send({ data: user }); 
+    }) 
+    .catch(err => { 
+      if (err.name === 'CastError') { 
+        res.status(400).send({ message: 'Поле Id задано некорректно' }); 
+        return; 
+      } 
+      res.status(500).send({ message: err.message }); 
+    }); 
+};
