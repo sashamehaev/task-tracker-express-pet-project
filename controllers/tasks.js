@@ -21,7 +21,7 @@ module.exports.getTaskById = (req, res) => {
     })
     .catch(err => {
       if (err.name === 'CastError') { 
-        res.status(400).send({ message: 'Поле Id заданно некорректно' }); 
+        res.status(400).send({ message: 'Поле Id задано некорректно' }); 
         return; 
       }
       res.status(500).send({ message: err })
