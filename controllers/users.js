@@ -1,4 +1,5 @@
-const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/user');
 
 module.exports.getUsers = (req, res) => {
@@ -82,12 +83,13 @@ module.exports.deleteUser = (req, res) => {
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials({ email, password })
+  return User.findUserByCredentials(email, password)
     .then(user => {
-      res.send({
+      // вернём токен
+      res.send({ 
         token: jwt.sign(
-          { _id: user._id }, 
-          'super-strong-secret', 
+          { _id: user._id },
+          'some-secret-key',
           { expiresIn: '7d' }
         )
       });
